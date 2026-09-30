@@ -10,6 +10,5 @@ Mural de vagas de TI feito com HTML, CSS e JavaScript puro. As vagas ficam em um
 
 ## Grupo
 
-- Ester Araujo da Silva - RA 5170602
-- Gabrieli Souza Jordão - RA 5167780
-- João Victor Costa Silva - RA 5170603
+Eduardo Henrique Andrade Cafilista - 5168834
+Harttur Oliveira Pimenta - 5170324
