@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevJobs</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header-content">
+            <div>
+                <h1 class="logo">Dev<span>Jobs</span></h1>
+                <p class="tagline">Encontre sua próxima vaga em tecnologia</p>
+            </div>
+            <button id="theme-toggle">🌙</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <input type="search" id="busca" placeholder="Buscar vaga...">
+
+        <div class="filtros">
+            <button class="chip ativo" data-tipo="todos">Todas</button>
+            <button class="chip" data-tipo="remoto">Remoto</button>
+            <button class="chip" data-tipo="presencial">Presencial</button>
+            <button class="chip" data-tipo="hibrido">Híbrido</button>
+        </div>
+
+        <p id="resultado-contagem"></p>
+
+        <div class="jobs-grid" id="jobs-grid"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 DevJobs — Projeto acadêmico</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
