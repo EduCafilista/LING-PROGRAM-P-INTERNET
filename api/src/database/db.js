@@ -1,33 +1,30 @@
-const { Router } = require('express');
-const router = Router();
+const Database = require('better-sqlite3');
+const path = require('path');
 
-const db = require('../database/db');
+const db = new Database(path.join(__dirname, '../../devjobs.db'));
 
-router.get('/', (req, res) => {
-  const vagas = db.prepare(`
-    SELECT v.*, e.nome AS empresa_nome
-    FROM vagas v
-    JOIN empresas e ON e.id = v.empresa_id
-    ORDER BY v.created_at DESC
-  `).all();
+db.exec(`
+  CREATE TABLE IF NOT EXISTS empresas (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    senha_hash TEXT NOT NULL
+  );
 
-  res.json(vagas);
-});
-router.post('/', (req, res) => {
-  const { titulo, empresa_id, tipo, tecnologia, salario, cep, cidade, descricao } = req.body;
+  CREATE TABLE IF NOT EXISTS vagas (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titulo TEXT NOT NULL,
+    empresa_id INTEGER NOT NULL,
+    tipo TEXT CHECK(tipo IN ('remoto','presencial','hibrido')) NOT NULL,
+    tecnologias TEXT NOT NULL,
+    salario TEXT,
+    cep TEXT,
+    cidade TEXT,
+    estado TEXT,
+    descricao TEXT,
+    created_at TEXT DEFAULT (datetime('now')),
+    FOREIGN KEY (empresa_id) REFERENCES empresas(id)
+  );
+`);
 
-  if (!titulo || !empresa_id || !tipo) {
-    return res.status(400).json({ error: 'Campos obrigatórios: titulo, empresa_id, tipo' });
-  }
-
-  const result =db.prepare(
-    `INSERT INTO vagas(titulo, empresa_id, tipo, tecnologia, salario, cep, cidade, descricao )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(titulo, empresa_id, tipo, tecnologias || '', salario || '', cep || '', cidade || '', estado || '', descricao || '');
-
-  const vaga = db.prepare('SELECT * FROM vagas WHERE id = ?').get(result.lastInsertRowid);
-  res.status(201).json(vaga);
-
-});
-
-module.exports = router;
+module.exports = db;
